@@ -1,22 +1,24 @@
-function playSound(e) {
-    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`)
-    const btn = document.querySelector(`.btn-paused[data-key="${e.keyCode}"]`)
+function sound() {
+    let btn = document.getElementsByClassName('btn-paused');
+    let audio = document.getElementsByClassName('sounds');
     
-    if(!audio) return;
-    
-    audio.currentTime = 0;
-    audio.play();
-    btn.classList.add('btn-playing');
+    let i;
+    for (i = 0; i < btn.length; i++) {
+        let x = i;
+        btn[i].addEventListener('click', function() {
+            audio[x].currentTime = 0;
+            audio[x].play();
+        });
+        
+        audio[i].addEventListener('play', function() {
+            btn[x].classList.add('btn-playing');
+        });
+        
+        audio[i].addEventListener('pause', function () {
+            btn[x].classList.remove('btn-playing'); 
+        });
+        
+    }
 }
-
-function removeTransition(e) {
-    if(e.propertyName !== 'background-color') return;
-    this.classList.remove('btn-playing');
-}
-
-const buttons = document.querySelectorAll('.btn-paused');
-buttons.forEach(btn => btn.addEventListener('transitionend', removeTransition));
-
-window.addEventListener('keydown', playSound);
-
-// look up ES6 template strings
+        
+sound();
